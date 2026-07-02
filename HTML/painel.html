@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Carregos da Socimol</title>
+</head>
+<body>
+  <header data-template-id="header-section" class="canva-header shadow-sm">
+   <div class="max-w-5xl mx-auto px-4 py-4">
+    <h1 data-template-id="app-title" class="canva-text text-2xl font-bold">Carregamentos Socimol</h1>
+   </div>
+  </header>
+
+  <div class="container">
+        <nav>
+            <ul>
+                <li><a href="#" target="_self">Home</a></li>
+                <li><a href="#" target="_self">Cadastro</a></li>
+                <li><a href="#" target="_self">Painel</a></li>
+                <li><a href="#" target="_self">Indicadores</a></li>
+                <li><a href="#" target="_self">Sobre nós</a></li>
+            </ul>
+        </nav>
+    </div>
+
+<section id="page-indicadores" class="hidden">
+    <h2 data-template-id="indicators-title" class="canva-text text-xl font-semibold mb-4"></h2>
+    <div class="grid gap-4 sm:grid-cols-3">
+     <div data-template-id="card-total" class="canva-card rounded-xl p-5 shadow">
+      <p data-template-id="card-total-label" class="canva-text text-sm opacity-70"></p>
+      <p id="val-total" class="text-3xl font-bold mt-1">0</p>
+     </div>
+     <div data-template-id="card-cubagem" class="canva-card rounded-xl p-5 shadow">
+      <p data-template-id="card-cubagem-label" class="canva-text text-sm opacity-70"></p>
+      <p id="val-cubagem" class="text-3xl font-bold mt-1">0</p>
+     </div>
+     <div data-template-id="card-perfil" class="canva-card rounded-xl p-5 shadow">
+      <p data-template-id="card-perfil-label" class="canva-text text-sm opacity-70"></p>
+      <div id="val-perfil" class="mt-2 space-y-1 text-sm"></div>
+     </div>
+    </div>
+</section>
+
+</body>
+</html>

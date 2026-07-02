@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="pt-BR">
+ <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260701-23-dcbed8c"}');</script><script src="/_sdk/f432b76fb310b513.telemetry_sdk.js" integrity="sha512-9FJQ55EKmmqhyyik8BhrMVfm0+iYYfb8uOlRsjtkxJMEI97qOVEI4PnHohDjQAtvAep0IOEpdQ64eki0sz62ug=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestão de Carregos da Socimol</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../CSS/style.css">
+  <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        .tab-active { border-bottom: 3px solid #1e40af; color: #1e40af; font-weight: 700; }
+    </style>
+  <script src="/_sdk/0b3af1c300e720aa.resizing_sdk.js" type="text/javascript" integrity="sha512-nX1P6oXZmEY5wCI2lUVg3BwKu1cr0yi+ZpXgZ0Yn90vkSwvpmyzBMvOyD6VLJUtBwFI2dSrw1b6OvORxSggw3w=="></script>
+ </head>
+ <body data-template-id="__page-root" class="min-h-screen w-full">
+  <header data-template-id="header-section" class="canva-header shadow-sm">
+   <div class="max-w-5xl mx-auto px-4 py-4">
+    <h1 data-template-id="app-title" class="canva-text text-2xl font-bold">Carregamentos Socimol</h1>
+   </div>
+  </header>
+  <nav class="max-w-5xl mx-auto px-4 mt-4 flex gap-6 border-b">
+    <button id="tab-cadastro" class="pb-2 tab-active" onclick="showTab('cadastro')"> <span data-template-id="tab-cadastro-label" class="canva-text"></span></button>
+    <button id="tab-tabela" class="pb-2" onclick="showTab('tabela')"> <span data-template-id="tab-tabela-label" class="canva-text"></span>
+    </button>
+    <button id="tab-indicadores" class="pb-2" onclick="showTab('indicadores')"> <span data-template-id="tab-indicadores-label" class="canva-text"></span> </button>
+  </nav>
+
+  <main class="max-w-5xl mx-auto px-4 py-6"><!-- Cadastro -->
+   <section id="page-cadastro">
+    <h2 data-template-id="form-title" class="canva-text text-xl font-semibold mb-4"></h2>
+    <form id="register-form" class="grid gap-4 sm:grid-cols-2">
+     <div>
+        <label data-template-id="label-deposito" class="canva-text block mb-1 font-medium" for="inp-deposito">Sigla do Depósito</label>
+        <input id="inp-deposito" type="text" required class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none">
+     </div>
+     <div>
+        <label data-template-id="label-motorista" class="canva-text block mb-1 font-medium" for="inp-motorista">Nome do Motorista</label>
+        <input id="inp-motorista" type="text" required class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none">
+     </div>
+     <div>
+        <label data-template-id="label-perfil" class="canva-text block mb-1 font-medium" for="inp-perfil">Perfil do Veículo</label>        
+        <select id="inp-perfil" required class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none">
+            <option value="">Selecione...</option>
+            <option value="3/4">3/4</option>
+            <option value="Toco">Toco</option>
+            <option value="Truck">Truck</option>
+            <option value="Carreta">Carreta</option>
+            <option value="Bi-Trem">Bi-Trem</option>
+            <option value="Rodo-Trem">Rodo-Trem</option>
+        </select>
+     </div>
+     <div>
+        <label data-template-id="label-cubagem" class="canva-text block mb-1 font-medium" for="inp-cubagem">Cubagem da Carga</label>
+        <input id="inp-cubagem" type="number" step="0.01" min="0" required class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none">
+     </div>
+     <div>
+        <label data-template-id="label-data" class="canva-text block mb-1 font-medium" for="inp-data">Informe a Data de Liberação do Veículo</label>
+        <input id="inp-data" type="date" required class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none">
+     </div>
+     <div class="flex items-end">
+        <button data-template-id="btn-cadastrar" type="submit" class="canva-button w-full px-4 py-2 rounded-lg font-semibold transition hover:opacity-90">Cadastrar Carregamento</button>
+     </div>
+    </form>
+    <div id="form-feedback" class="mt-3 text-sm hidden"></div>
+
+   </section><!-- Tabela -->
+   <section id="page-tabela" class="hidden">
+    <h2 data-template-id="table-title" class="canva-text text-xl font-semibold mb-4"></h2>
+    <div class="overflow-x-auto rounded-lg border">
+     <table class="w-full text-sm">
+      <thead data-template-id="table-header" class="canva-section">
+       <tr>
+        <th class="text-left px-3 py-2">Depósito</th>
+        <th class="text-left px-3 py-2">Motorista</th>
+        <th class="text-left px-3 py-2">Perfil</th>
+        <th class="text-left px-3 py-2">Cubagem (m³)</th>
+        <th class="text-left px-3 py-2">Data Liberação</th>
+        <th class="px-3 py-2"></th>
+       </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+     </table>
+    </div>
+    <p data-template-id="empty-table" id="empty-table" class="canva-text text-center py-8 hidden"></p>
+   </section><!-- Indicadores -->
+   <section id="page-indicadores" class="hidden">
+    <h2 data-template-id="indicators-title" class="canva-text text-xl font-semibold mb-4"></h2>
+    <div class="grid gap-4 sm:grid-cols-3">
+     <div data-template-id="card-total" class="canva-card rounded-xl p-5 shadow">
+      <p data-template-id="card-total-label" class="canva-text text-sm opacity-70"></p>
+      <p id="val-total" class="text-3xl font-bold mt-1">0</p>
+     </div>
+     <div data-template-id="card-cubagem" class="canva-card rounded-xl p-5 shadow">
+      <p data-template-id="card-cubagem-label" class="canva-text text-sm opacity-70"></p>
+      <p id="val-cubagem" class="text-3xl font-bold mt-1">0</p>
+     </div>
+     <div data-template-id="card-perfil" class="canva-card rounded-xl p-5 shadow">
+      <p data-template-id="card-perfil-label" class="canva-text text-sm opacity-70"></p>
+      <div id="val-perfil" class="mt-2 space-y-1 text-sm"></div>
+     </div>
+    </div>
+   </section>
+  </main>
+  
+  <script src="/_sdk/6740099151a06780.editing_sdk.js" integrity="sha512-eSc5OWFJjK6fUpxViOKXm5ekJ3Gp5icgygsjPVz9Xzudb9TkX/uNdpqNHc63uN0PdxYE9+g8pZAHIib0FgE0Cw=="></script>
+  <script src="/_sdk/0179d719c431a79e.data_sdk.js" integrity="sha512-OsRvJkI5GkC3MJQcgotQYotpzrMSX415GiKKgvYdxQEEkzD/fdchShO2FMSy0PJr/tiINMXOk5Vl2zAgg6bUiA=="></script>
+  <script>
+        let allData = [];
+
+        function showTab(name) {
+            ['cadastro','tabela','indicadores'].forEach(t => {
+                document.getElementById('page-' + t).classList.toggle('hidden', t !== name);
+                document.getElementById('tab-' + t).classList.toggle('tab-active', t === name);
+            });
+            if (name === 'indicadores') renderIndicators();
+        }
+
+        function renderTable(data) {
+            const tbody = document.getElementById('table-body');
+            const empty = document.getElementById('empty-table');
+            if (!data.length) { tbody.innerHTML = ''; empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+
+            const existing = new Map([...tbody.children].map(r => [r.dataset.id, r]));
+            const fragment = document.createDocumentFragment();
+
+            data.forEach(item => {
+                let row = existing.get(item.__backendId);
+                if (row) {
+                    existing.delete(item.__backendId);
+                } else {
+                    row = document.createElement('tr');
+                    row.dataset.id = item.__backendId;
+                    row.className = 'border-t';
+                    row.innerHTML = `<td class="px-3 py-2"></td><td class="px-3 py-2"></td><td class="px-3 py-2"></td><td class="px-3 py-2"></td><td class="px-3 py-2"></td><td class="px-3 py-2 text-center"><button class="text-red-500 hover:text-red-700" title="Excluir"><i data-lucide="trash-2" style="width:16px;height:16px"></i></button></td>`;
+                }
+                const cells = row.querySelectorAll('td');
+                cells[0].textContent = item.deposito;
+                cells[1].textContent = item.motorista;
+                cells[2].textContent = item.perfil_veiculo;
+                cells[3].textContent = Number(item.cubagem).toFixed(2);
+                cells[4].textContent = item.data_liberacao ? new Date(item.data_liberacao).toLocaleDateString('pt-BR') : '';
+                cells[5].querySelector('button').onclick = () => deleteRecord(item);
+                fragment.appendChild(row);
+            });
+            existing.forEach(r => r.remove());
+            tbody.appendChild(fragment);
+            lucide.createIcons();
+        }
+
+        function renderIndicators() {
+            document.getElementById('val-total').textContent = allData.length;
+            const avg = allData.length ? (allData.reduce((s, r) => s + Number(r.cubagem || 0), 0) / allData.length).toFixed(2) : '0';
+            document.getElementById('val-cubagem').textContent = avg + ' m³';
+            const perfis = {};
+            allData.forEach(r => { perfis[r.perfil_veiculo] = (perfis[r.perfil_veiculo] || 0) + 1; });
+            document.getElementById('val-perfil').innerHTML = Object.entries(perfis).map(([k,v]) => `<div class="flex justify-between"><span>${k}</span><span class="font-semibold">${v}</span></div>`).join('');
+        }
+
+        async function deleteRecord(item) {
+            const result = await window.dataSdk.delete(item);
+            if (!result.isOk) showFeedback('Erro ao excluir registro.', true);
+        }
+
+        function showFeedback(msg, isError) {
+            const el = document.getElementById('form-feedback');
+            el.textContent = msg;
+            el.className = 'mt-3 text-sm ' + (isError ? 'text-red-600' : 'text-green-600');
+            el.classList.remove('hidden');
+            setTimeout(() => el.classList.add('hidden'), 3000);
+        }
+
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (allData.length >= 999) { showFeedback('Limite de 999 registros atingido.', true); return; }
+            const btn = document.querySelector('[data-template-id="btn-cadastrar"]');
+            btn.disabled = true; btn.style.opacity = '0.5';
+            const record = {
+                deposito: document.getElementById('inp-deposito').value.trim(),
+                motorista: document.getElementById('inp-motorista').value.trim(),
+                perfil_veiculo: document.getElementById('inp-perfil').value,
+                cubagem: parseFloat(document.getElementById('inp-cubagem').value),
+                data_liberacao: new Date(document.getElementById('inp-data').value).toISOString()
+            };
+            const result = await window.dataSdk.create(record);
+            btn.disabled = false; btn.style.opacity = '1';
+            if (result.isOk) { e.target.reset(); showFeedback('Registro salvo com sucesso!', false); }
+            else showFeedback('Erro ao salvar registro.', true);
+        });
+
+        const handler = {
+            onDataChanged(data) {
+                allData = data;
+                renderTable(data);
+                if (!document.getElementById('page-indicadores').classList.contains('hidden')) renderIndicators();
+            }
+        };
+
+        (async () => {
+            const r = await window.dataSdk.init(handler);
+            if (!r.isOk) showFeedback('Erro ao conectar com o banco de dados.', true);
+            lucide.createIcons();
+        })();
+    </script>
+ <script>
+    (function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1499d34c6422737',t:'MTc4Mjk1Mjk4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>
